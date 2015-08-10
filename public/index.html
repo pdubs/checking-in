@@ -17,6 +17,13 @@
 		body 					{ padding-top:50px; }
 		#checkin-list 				{ margin-bottom:30px; }
 		#checkin-form 	 			{ margin-bottom:50px; }
+		body .jumbotron {
+			padding: 5px;
+		}
+		body .jumbotron h1 {
+			font-size: 18px;
+			margin: 10px 0;
+		}
 		/*.deleteCheck {display: none;}*/
 	</style>
 
@@ -39,6 +46,22 @@
 			<h1>Jay has checked in <span class="label label-info">{{ checkins.length }}</span> times!</h1>
 		</div>
 
+		<!-- FORM TO CREATE TODOS -->
+		<div id="checkin-form" class="row">
+			<div class="col-sm-8 col-sm-offset-2 text-center">
+				<form>
+					<div class="form-group">
+
+						<!-- BIND THIS VALUE TO checkinData.text IN ANGULAR -->
+						<input type="text" class="form-control input-lg text-center" placeholder="enter any notes here" ng-model="checkinData.text">
+					</div>
+
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="createCheckin()">Check In!</button>
+				</form>
+			</div>
+		</div>
+
+
 		<!-- TODO LIST -->
 		<div id="checkin-list" class="row">
 			<div class="col-sm-4 col-sm-offset-4">
@@ -60,22 +83,6 @@
 
 			</div>
 		</div>
-
-		<!-- FORM TO CREATE TODOS -->
-		<div id="checkin-form" class="row">
-			<div class="col-sm-8 col-sm-offset-2 text-center">
-				<form>
-					<div class="form-group">
-
-						<!-- BIND THIS VALUE TO checkinData.text IN ANGULAR -->
-						<input type="text" class="form-control input-lg text-center" placeholder="enter any notes here" ng-model="checkinData.text">
-					</div>
-
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="createCheckin()">Check In!</button>
-				</form>
-			</div>
-		</div>
-
 	</div>
 
 </body>
