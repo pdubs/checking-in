@@ -1,52 +1,55 @@
-var Todo = require('./models/todo');
+var Checkin = require('./models/checkin');
 
-function getTodos(res){
-	Todo.find(function(err, todos) {
+function getCheckins(res){
+	Checkin.find(function(err, checkins) {
 
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err)
 				res.send(err)
 
-			res.json(todos); // return all todos in JSON format
+			res.json(checkins); // return all checkins in JSON format
 		});
 };
 
 module.exports = function(app) {
 
 	// api ---------------------------------------------------------------------
-	// get all todos
-	app.get('/api/todos', function(req, res) {
+	// get all checkins
+	app.get('/api/checkins', function(req, res) {
 
-		// use mongoose to get all todos in the database
-		getTodos(res);
+		// use mongoose to get all checkins in the database
+		getCheckins(res);
 	});
 
-	// create todo and send back all todos after creation
-	app.post('/api/todos', function(req, res) {
+	// create checkin and send back all checkins after creation
+	app.post('/api/checkins', function(req, res) {
 
-		// create a todo, information comes from AJAX request from Angular
-		Todo.create({
+		// create a checkin, information comes from AJAX request from Angular
+		Checkin.create({
 			text : req.body.text,
+			lat : req.body.lat,
+			lon : req.body.lon,
+			time : req.body.time,
 			done : false
-		}, function(err, todo) {
+		}, function(err, checkin) {
 			if (err)
 				res.send(err);
 
-			// get and return all the todos after you create another
-			getTodos(res);
+			// get and return all the checkins after you create another
+			getCheckins(res);
 		});
 
 	});
 
-	// delete a todo
-	app.delete('/api/todos/:todo_id', function(req, res) {
-		Todo.remove({
-			_id : req.params.todo_id
-		}, function(err, todo) {
+	// delete a checkin
+	app.delete('/api/checkins/:checkin_id', function(req, res) {
+		Checkin.remove({
+			_id : req.params.checkin_id
+		}, function(err, checkin) {
 			if (err)
 				res.send(err);
 
-			getTodos(res);
+			getCheckins(res);
 		});
 	});
 

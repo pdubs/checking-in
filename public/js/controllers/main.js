@@ -1,50 +1,62 @@
-angular.module('todoController', [])
+angular.module('checkinController', ['ngGeolocation'])
 
-	// inject the Todo service factory into our controller
-	.controller('mainController', ['$scope','$http','Todos', function($scope, $http, Todos) {
-		$scope.formData = {};
+	// inject the Checkin service factory into our controller
+	.controller('mainController', ['$geolocation','$scope','$http','Checkins', function($geolocation, $scope, $http, Checkins) {
+		$scope.checkinData = {};
 		$scope.loading = true;
 
 		// GET =====================================================================
-		// when landing on the page, get all todos and show them
-		// use the service to get all the todos
-		Todos.get()
+		// when landing on the page, get all checkins and show them
+		// use the service to get all the checkins
+		Checkins.get()
 			.success(function(data) {
-				$scope.todos = data;
+				$scope.checkins = data;
 				$scope.loading = false;
 			});
 
 		// CREATE ==================================================================
 		// when submitting the add form, send the text to the node API
-		$scope.createTodo = function() {
-
-			// validate the formData to make sure that something is there
+		$scope.createCheckin = function() {
+			var time = new Date();
+			// validate the checkinData to make sure that something is there
 			// if form is empty, nothing will happen
-			if ($scope.formData.text != undefined) {
+			if ($scope.checkinData.text != undefined) {
+
 				$scope.loading = true;
 
-				// call the create function from our service (returns a promise object)
-				Todos.create($scope.formData)
+				$geolocation.getCurrentPosition({
+					timeout: 60000
+				}).then(function(position) {
+					$scope.myPosition = position;
 
-					// if successful creation, call our get function to get all the new todos
-					.success(function(data) {
-						$scope.loading = false;
-						$scope.formData = {}; // clear the form so our user is ready to enter another
-						$scope.todos = data; // assign our new list of todos
-					});
+					$scope.checkinData.lat = $scope.myPosition.coords.latitude;
+					$scope.checkinData.lon = $scope.myPosition.coords.longitude;
+
+					$scope.checkinData.time = (time.getMonth() + "/" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds());
+
+					// call the create function from our service (returns a promise object)
+					Checkins.create($scope.checkinData)
+
+						// if successful creation, call our get function to get all the new checkins
+						.success(function(data) {
+							$scope.loading = false;
+							$scope.checkinData = {}; // clear the form so our user is ready to enter another
+							$scope.checkins = data; // assign our new list of checkins
+						});
+				});
 			}
 		};
 
 		// DELETE ==================================================================
-		// delete a todo after checking it
-		$scope.deleteTodo = function(id) {
+		// delete a checkin after checking it
+		$scope.deleteCheckin = function(id) {
 			$scope.loading = true;
 
-			Todos.delete(id)
-				// if successful creation, call our get function to get all the new todos
+			Checkins.delete(id)
+				// if successful creation, call our get function to get all the new checkins
 				.success(function(data) {
 					$scope.loading = false;
-					$scope.todos = data; // assign our new list of todos
+					$scope.checkins = data; // assign our new list of checkins
 				});
 		};
 	}]);

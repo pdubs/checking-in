@@ -1,9 +1,9 @@
 {
-  "name"         : "node-todo",
+  "name"         : "checking-in",
   "version"      : "0.0.0",
-  "description"  : "Simple todo application.",
+  "description"  : "Simple check-in application.",
   "main"         : "server.js",
-  "author"       : "Scotch",
+  "author"       : "Scotch / pdubs",
   "dependencies" : {
     "express"         : "~4.6.1",
     "mongoose"        : "~3.8.13",
