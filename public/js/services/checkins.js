@@ -1,7 +1,4 @@
 angular.module('checkinService', [])
-
-	// super simple service
-	// each function returns a promise object 
 	.factory('Checkins', ['$http',function($http) {
 		return {
 			get : function() {

@@ -7,7 +7,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
 
-	<title>Node/Angular Checkin App</title>
+	<title>JayDude's CO Trail Check-In App</title>
 
 	<!-- SCROLLS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
@@ -24,7 +24,30 @@
 			font-size: 18px;
 			margin: 10px 0;
 		}
-		/*.deleteCheck {display: none;}*/
+		.deleteCheck {display: none;}
+
+		.checkin-time,
+		.checkin-note,
+		.checkin-lat,
+		.checkin-lon {
+			margin: -1px 0 0 0;
+			padding: 0px;
+			display: inline-block;
+			text-align: center;
+			border: 1px solid black;
+			position: relative;
+			vertical-align: top;
+		}
+
+		.checkin-time,
+		.checkin-lat,
+		.checkin-lon {
+			width: 15%;
+		}
+		.checkin-note {
+			width: 50%;
+		}
+
 	</style>
 
 	<!-- SPELLS -->
@@ -37,22 +60,17 @@
 	<script src="js/core.js"></script> <!-- load our main application -->
 
 </head>
-<!-- SET THE CONTROLLER -->
 <body ng-controller="mainController">
 	<div class="container">
 
-		<!-- HEADER AND TODO COUNT -->
 		<div class="jumbotron text-center">
 			<h1>Jay has checked in <span class="label label-info">{{ checkins.length }}</span> times!</h1>
 		</div>
 
-		<!-- FORM TO CREATE TODOS -->
 		<div id="checkin-form" class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
 				<form>
 					<div class="form-group">
-
-						<!-- BIND THIS VALUE TO checkinData.text IN ANGULAR -->
 						<input type="text" class="form-control input-lg text-center" placeholder="enter any notes here" ng-model="checkinData.text">
 					</div>
 
@@ -61,27 +79,29 @@
 			</div>
 		</div>
 
-
-		<!-- TODO LIST -->
-		<div id="checkin-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
-				<!-- LOOP OVER THE TODOS IN $scope.checkins -->
-
-				<div class="checkbox" ng-repeat="checkin in checkins">
-						<input type="checkbox" class="deleteCheck" ng-click="deleteCheckin(checkin._id)">
-						<div class="checkin-item">
-							<div class="checkin-time">Time: {{ checkin.time }}</div>
-							<div class="checkin-note">Note: {{ checkin.text }}</div>
-							<div class="checkin-coords">Lat: {{ checkin.lat }} &nbsp; Lon: {{ checkin.lon }}</div>
-						</div>
-				</div>
-
-
-				<p class="text-center" ng-show="loading">
-					<span class="fa fa-spinner fa-spin fa-3x"></span>
-				</p>
-
+		<div id="checkin-list" class="row col-sm-8 col-sm-offset-2">
+			<div class="tableHeaderRow checkin-item">
+				<div class="tableHeader checkin-time">Timestamp</div>
+				<div class="tableHeader checkin-note">Note</div>
+				<div class="tableHeader checkin-lat">Latitude</div>
+				<div class="tableHeader checkin-lon">Longitude</div>
 			</div>
+
+			<div ng-repeat="checkin in checkins">
+					<input type="checkbox" class="deleteCheck" ng-click="deleteCheckin(checkin._id)">
+					<div class="checkin-item">
+						<div class="checkin-time">{{ checkin.time }}</div>
+						<div class="checkin-note">{{ checkin.text }}</div>
+						<div class="checkin-lat">{{ checkin.lat }}</div>
+						<div class="checkin-lon">{{ checkin.lon }}</div>
+					</div>
+			</div>
+
+
+			<p class="text-center" ng-show="loading">
+				<span class="fa fa-spinner fa-spin fa-3x"></span>
+			</p>
+
 		</div>
 	</div>
 

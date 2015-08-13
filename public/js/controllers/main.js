@@ -53,10 +53,9 @@ angular.module('checkinController', ['ngGeolocation'])
 			$scope.loading = true;
 
 			Checkins.delete(id)
-				// if successful creation, call our get function to get all the new checkins
 				.success(function(data) {
 					$scope.loading = false;
-					$scope.checkins = data; // assign our new list of checkins
+					$scope.checkins = data;
 				});
 		};
 	}]);
