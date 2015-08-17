@@ -3,9 +3,11 @@ var Checkin = require('./models/checkin');
 function getCheckins(res){
 	Checkin.find(function(err, checkins) {
 		if (err) {
-			return res.send(err);
+			res.send(err);
 		}
-		res.json(checkins);
+		else {
+			res.json(checkins);
+		}
 	});
 };
 
