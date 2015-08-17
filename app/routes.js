@@ -5,9 +5,7 @@ function getCheckins(res){
 		if (err) {
 			res.send(err);
 		}
-		else {
-			res.json(checkins);
-		}
+		res.json(checkins);
 	});
 };
 
@@ -24,8 +22,12 @@ module.exports = function(app) {
 			time : req.body.time,
 			done : false
 		}, function(err, checkin) {
-			if (err) {res.send(err);}
-			getCheckins(res);
+			if (err) {
+				res.send(err);
+			}
+			else {
+				getCheckins(res);
+			}
 		});
 	});
 
@@ -33,8 +35,12 @@ module.exports = function(app) {
 		Checkin.remove({
 			_id : req.params.checkin_id
 		}, function(err, checkin) {
-			if (err) {res.send(err);}
-			getCheckins(res);
+			if (err) {
+				res.send(err);
+			}
+			else {
+				getCheckins(res);
+			}
 		});
 	});
 
